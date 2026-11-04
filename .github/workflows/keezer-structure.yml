@@ -1,0 +1,45 @@
+name: Keezer — vérifier la structure
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Récupérer les fichiers
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Contrôler les documents obligatoires
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s AGENTS.md
+          test -s docs/exigences/CAHIER_DES_CHARGES.md
+          test -s docs/gouvernance/CONTEXTE.md
+          test -s docs/gouvernance/DECISIONS.md
+          test -s docs/architecture/CONTRAT_DONNEES.yaml
+          test -s docs/missions/MISSIONS_INITIALES.md
+          for agent in \
+            A0_CHEF_DE_PROJET A1_ELECTRONIQUE A2_FIRMWARE A3_INTERFACE \
+            A4_MECANIQUE_FLUIDES A5_ACHATS_BUDGET A6_QUALITE_SECURITE; do
+            test -s "agents/${agent}.md"
+          done
+          echo "Structure documentaire valide."
+
+      - name: Vérifier la syntaxe du script de sauvegarde
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp scripts/drive-backup/Code.gs /tmp/keezer-apps-script.js
+          node --check /tmp/keezer-apps-script.js
+          echo "Syntaxe JavaScript valide (sans exécution ni accès Drive)."
