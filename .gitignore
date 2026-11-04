@@ -1,0 +1,26 @@
+# Secrets, credentials, fichiers locaux
+.env
+.env.*
+!.env.example
+secrets.*
+credentials.*
+wifi_credentials.h
+**/config.local.*
+*.key
+*.pem
+
+# Espressif / PlatformIO / IDE
+.pio/
+build/
+.sdkconfig.old
+sdkconfig
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Rapports locaux et exports
+*.log
+tmp/
+dist/
