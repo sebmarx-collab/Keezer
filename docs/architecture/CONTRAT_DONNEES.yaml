@@ -1,0 +1,57 @@
+# PROPOSITION à faire valider par A2 + A3 + A0
+schema_version: "0.1-proposal"
+message_type: "keezer.telemetry"
+metadata:
+  timestamp_iso8601: null
+  sequence: null
+  firmware_version: null
+sensor_status_enum: [ok, unavailable, uncalibrated, warning, fault]
+telemetry:
+  temperature:
+    value: null
+    unit: celsius
+    status: unavailable
+  co2_pressure:
+    value: null
+    unit: bar
+    status: unavailable
+    nominal_range_bar: [0, 5]
+  kegs:
+    - id: 1
+      gross_mass_kg: null
+      empty_reference_kg: null
+      full_reference_kg: null
+      remaining_percent: null
+      remaining_liters: null
+      status: uncalibrated
+    - id: 2
+      gross_mass_kg: null
+      empty_reference_kg: null
+      full_reference_kg: null
+      remaining_percent: null
+      remaining_liters: null
+      status: uncalibrated
+  water_filter:
+    liters_since_reset: null
+    nominal_capacity_liters: null
+    used_percent_estimate: null
+    status: unavailable
+  taps:
+    - id: 1
+      led_mode: fixed
+      led_color_rgb: [0, 0, 0]
+      status: unavailable
+    - id: 2
+      led_mode: fixed
+      led_color_rgb: [0, 0, 0]
+      status: unavailable
+commands_proposed:
+  - set_led_configuration
+  - calibrate_load_cell
+  - set_keg_empty_and_full_references
+  - reset_water_filter_counter
+  - set_temperature_setpoint  # only after thermal safety design and human approval
+safety_constraints:
+  - no_co2_pressure_actuation
+  - no_water_pressure_actuation
+  - no_unsafe_raw_mains_control_from_ui
