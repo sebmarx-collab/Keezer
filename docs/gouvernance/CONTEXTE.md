@@ -1,28 +1,19 @@
-# Contexte partagé — v0.1
+# Contexte de référence — Keezer connecté V0.4
 
-## Objectif
-Keezer connecté pour la distribution de bière et d'eau avec mesures, supervision tactile et maintenance facilitée.
+**Cahier des charges consolidé le 6 novembre 2026.**
 
-## Éléments établis lors des échanges
-| ID | Élément | Statut |
-|---|---|---|
-| EX-01 | Congélateur coffre, coût annoncé 100 € | CONFIRMÉ |
-| EX-02 | Deux fûts Ecofass fournis par un brasseur, aucun achat de fûts | CONFIRMÉ |
-| EX-03 | Deux balances distinctes sous fûts | CONFIRMÉ |
-| EX-04 | Calibration références fût vide / plein pour estimer stock | CONFIRMÉ |
-| EX-05 | Capteur CO₂ nominal 0–5 bar, installation basse pression | CONFIRMÉ EN PRINCIPE |
-| EX-06 | Réglage des pressions CO₂ et eau manuel : détendeurs, manomètres | CONFIRMÉ |
-| EX-07 | LED configurable au-dessus de chaque robinet | CONFIRMÉ |
-| EX-08 | Écran pour température, stocks, pression, filtre et paramètres | CONFIRMÉ EN PRINCIPE |
-| EX-09 | Suivi du filtre à eau par volume cumulé au débitmètre | CONFIRMÉ EN PRINCIPE |
+Le projet est un keezer avec **3 robinets** : deux pour de la bière issue de **2 fûts Ecofass 20 L prêtés**, et un pour l'**eau plate filtrée et réfrigérée**.
 
-## À décider
-- Modèle exact de congélateur, dimensions disponibles, nombre et configuration des robinets.
-- Carte ESP32 ou autre, alimentation, modèles de capteurs et schémas de câblage.
-- Type d'écran, choix de plateforme et liaison avec contrôleur.
-- Architecture sûre de régulation thermique et interface avec équipement frigorifique.
-- Diamètres/raccords du circuit eau et CO₂, compatibilité alimentaire.
-- Capacité nominale du filtre et modalités de remise à zéro.
+Le congélateur coffre est annoncé à **100 €** et le matériel de tirage de bière est fourni par le brasseur, sous réserve d'inventaire. Les **2 balances** servent au calcul des litres restants après calibration vide/plein. Le circuit d'eau comprend un débitmètre pour estimer l'utilisation du filtre. La pression CO₂ est **mesurée uniquement sur circuit basse pression** (capteur 0–5 bar souhaité) et les pressions de service restent réglées manuellement.
 
-## Hypothèses à ne pas confondre avec une décision
-Le nom ESP32 n'est pas une carte sélectionnée. Une pression CO₂ mesurée en un point ne représente pas plusieurs branches régulées indépendamment. Un débitmètre n'est pas une analyse chimique de la qualité du filtre.
+L'architecture choisie comme orientation : **un Raspberry Pi avec écran tactile et un Arduino**. Le Raspberry héberge l'interface, les réglages et les historiques ; l'Arduino acquiert les mesures, commande les **3 LED RGB**, régule le froid de manière autonome avec une demande de commande vers un relais/contacteur approprié.
+
+**Les LED servent par défaut à identifier le type de produit par une couleur fixe choisie sur l'écran**. L'utilisateur peut, dans les paramètres, affecter une mesure alternative à chacune de ces LED. Ce mode reste facultatif et ne s'active pas de lui-même.
+
+Le propriétaire est électricien et souhaite un système complet et documenté. Le travail des agents A0–A6 est déclenché uniquement **à la demande**, **sans API payante**. Les sauvegardes dans GitHub et le dossier Google Drive sont réalisées **lorsqu'une étape est consolidée**, et non selon une fréquence automatique.
+
+**Informations encore absentes :** modèle et plaque du congélateur, inventaire exact du matériel fourni, implantation mécanique, référence des cartes/capteurs, sécurité 230 V, nomenclature définitive, budget arrêté et essais.
+
+Les références commerciales antérieurement évoquées ne valent pas validation d'achat.
+
+Voir `docs/exigences/CAHIER_DES_CHARGES.md`, `docs/gouvernance/DECISIONS.md` et `docs/exigences/REGISTRE_PARAMETRES_V0_4.md`.
